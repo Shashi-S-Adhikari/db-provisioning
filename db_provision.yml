@@ -1,0 +1,24 @@
+---
+- name: Database Provisioning
+  hosts: db_servers
+  become: yes
+
+  vars_files:
+    - vars/db_vars.yml
+
+  tasks:
+
+    - name: Create Database
+      mysql_db:
+        name: "{{ db_name }}"
+        state: present
+        login_unix_socket: /var/lib/mysql/mysql.sock
+
+    - name: Create User and Grant Permissions
+      mysql_user:
+        name: "{{ db_user }}"
+        password: "{{ db_password }}"
+        host: "%"
+        priv: "{{ db_name }}.*:ALL"
+        state: present
+        login_unix_socket: /var/lib/mysql/mysql.sock

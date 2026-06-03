@@ -1,0 +1,3 @@
+db_name: demo_db
+db_user: demo_user
+db_password: "Password@123"
